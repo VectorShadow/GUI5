@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
  * input/output space. Higher level functions, such as formatting text, should be handled elsewhere.
  * Specific region types, such as for image tiles or text tiles, should extend this class.
  */
-public abstract class Region {
+public class Region {
     final Point ORIGIN;
     final int UNIT_HEIGHT;
     final int UNIT_WIDTH;
@@ -62,31 +62,12 @@ public abstract class Region {
      * @param externalIndex a Point specifying the x,y coordinates of a pixel in the external coordinate system.
      * @return whether this Region contains the specified external coordinates.
      */
-    public boolean contains(Point externalIndex) {
+    boolean contains(Point externalIndex) {
         Point internalIndex = toInternal(externalIndex);
         int x = internalIndex.x;
         int y = internalIndex.y;
         return (x >= 0 && (x < WIDTH_IN_UNITS * UNIT_WIDTH) &&
                 y >= 0 && (y < HEIGHT_IN_UNITS * UNIT_HEIGHT));
-    }
-
-    /**
-     * Find the internal indices of the unit corresponding to the provided external pixel indices.
-     * @param externalIndex a Point specifying the x,y coordinates of a pixel in the external coordinate system.
-     * @return a Point specifying the x,y coordinates of a unit tile in internal unit coordinates, or null if the
-     * specified external index is not within this Region.
-     */
-    public Point unitIndex(Point externalIndex) {
-        if (!contains(externalIndex)) return null;
-        Point internalIndex = toInternal(externalIndex);
-        return new Point(internalIndex.x / UNIT_WIDTH, internalIndex.y / UNIT_HEIGHT);
-    }
-
-    /**
-     * @return the size in units of this Region as a Point(Width, Height)
-     */
-    public Point size() {
-        return new Point(WIDTH_IN_UNITS, HEIGHT_IN_UNITS);
     }
 
     /**
@@ -100,10 +81,16 @@ public abstract class Region {
 
     /**
      * Use the image matrix to paint this region's content to the canvas.
-     * @param canvas
      */
     void paint(Canvas canvas) {
         imageMatrix.paint(canvas, ORIGIN.x, ORIGIN.y);
+    }
+
+    /**
+     * @return the size in units of this Region as a Point(Width, Height)
+     */
+    Point size() {
+        return new Point(WIDTH_IN_UNITS, HEIGHT_IN_UNITS);
     }
 
     /**
@@ -122,5 +109,17 @@ public abstract class Region {
      */
     private Point toInternal(Point externalIndex) {
         return new Point(externalIndex.x - ORIGIN.x, externalIndex.y - ORIGIN.y);
+    }
+
+    /**
+     * Find the internal indices of the unit corresponding to the provided external pixel indices.
+     * @param externalIndex a Point specifying the x,y coordinates of a pixel in the external coordinate system.
+     * @return a Point specifying the x,y coordinates of a unit tile in internal unit coordinates, or null if the
+     * specified external index is not within this Region.
+     */
+    private Point unitIndex(Point externalIndex) {
+        if (!contains(externalIndex)) return null;
+        Point internalIndex = toInternal(externalIndex);
+        return new Point(internalIndex.x / UNIT_WIDTH, internalIndex.y / UNIT_HEIGHT);
     }
 }

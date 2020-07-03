@@ -11,7 +11,7 @@ public class Canvas {
 
     private final BufferedImage IMAGE;
 
-    public Canvas(int h, int w) {
+    Canvas(int h, int w) {
         HEIGHT = h;
         WIDTH = w;
         IMAGE = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -25,10 +25,10 @@ public class Canvas {
 //            throw new IllegalArgumentException("pixelCol (" + pixelCol + ") out of bounds: 0 <= [value] < " + WIDTH);
         IMAGE.setRGB(pixelCol, pixelRow, rgbValue);
     }
-    public void clear(){
+    void clear(){
         clear(0);
     }
-    public void clear(int rgbValue) {
+    void clear(int rgbValue) {
         for (int h = 0; h < HEIGHT; ++h) {
             for (int w = 0; w < WIDTH; ++w) {
                 paint(h, w, rgbValue);
@@ -36,7 +36,7 @@ public class Canvas {
         }
     }
 
-    public BufferedImage getImage() {
+    BufferedImage getImage() {
         return IMAGE;
     }
 }
