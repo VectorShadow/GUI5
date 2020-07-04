@@ -1,7 +1,9 @@
 package main;
 
+import implementation.matrixupdater.MatrixUpdater;
 import implementation.mouseinputhandler.MouseInputHandler;
 import implementation.mouseinputhandler.NullMouseInputHandler;
+import implementation.paintinstructions.PaintInstruction;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -12,14 +14,14 @@ import java.awt.event.MouseEvent;
  * Specific region types, such as for image tiles or text tiles, should extend this class.
  */
 public class Region {
-    final Point ORIGIN;
-    final int UNIT_HEIGHT;
-    final int UNIT_WIDTH;
-    final int HEIGHT_IN_UNITS;
-    final int WIDTH_IN_UNITS;
-    final MouseInputHandler MOUSE_INPUT_HANDLER;
+    private final Point ORIGIN;
+    private final int UNIT_HEIGHT;
+    private final int UNIT_WIDTH;
+    private final int HEIGHT_IN_UNITS;
+    private final int WIDTH_IN_UNITS;
+    private final MouseInputHandler MOUSE_INPUT_HANDLER;
 
-    final LayerList LAYER_LIST;
+    private final LayerList LAYER_LIST;
 
     /**
      * This region need not support mouse input.
@@ -28,13 +30,15 @@ public class Region {
             int originRow, int originColumn,
             int unitHeight, int unitWidth,
             int heightInUnits, int widthInUnits,
-            LayerList layerList
+            MatrixUpdater matrixUpdater,
+            PaintInstruction... paintInstructions
     ) {
         this(
                 originRow, originColumn,
                 unitHeight, unitWidth,
                 heightInUnits, widthInUnits,
-                layerList, new NullMouseInputHandler()
+                matrixUpdater, new NullMouseInputHandler(),
+                paintInstructions
         );
     }
 
@@ -42,17 +46,21 @@ public class Region {
             int originRow, int originColumn,
             int unitHeight, int unitWidth,
             int heightInUnits, int widthInUnits,
-            LayerList layerList,
-            MouseInputHandler mouseInputHandler
+            MatrixUpdater matrixUpdater,
+            MouseInputHandler mouseInputHandler,
+            PaintInstruction... paintInstructions
     ) {
         ORIGIN = new Point(originColumn, originRow);
         UNIT_HEIGHT = unitHeight;
         UNIT_WIDTH = unitWidth;
         HEIGHT_IN_UNITS = heightInUnits;
         WIDTH_IN_UNITS = widthInUnits;
-        LAYER_LIST = layerList;
+        LAYER_LIST = new LayerList(
+                UNIT_HEIGHT, UNIT_WIDTH,
+                HEIGHT_IN_UNITS, WIDTH_IN_UNITS,
+                matrixUpdater, paintInstructions
+        );
         MOUSE_INPUT_HANDLER = mouseInputHandler;
-        update();
     }
 
     /**

@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * A construct for storing, accessing, and updating information about multiple draw layers.
  */
-public class LayerList {
+class LayerList {
 
     private final int IMAGE_HEIGHT, IMAGE_WIDTH, MATRIX_HEIGHT, MATRIX_WIDTH;
 
@@ -18,7 +18,7 @@ public class LayerList {
 
     private ImageMatrix[] imageMatrices;
 
-    public LayerList(
+    LayerList(
             int imageHeight, int imageWidth,
             int matrixHeight, int matrixWidth,
             MatrixUpdater matrixUpdater,
