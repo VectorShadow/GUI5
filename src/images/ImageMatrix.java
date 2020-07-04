@@ -1,6 +1,9 @@
 package images;
 
+import implementation.paintinstructions.PaintInstruction;
 import main.Canvas;
+
+import java.awt.image.BufferedImage;
 
 /**
  * A matrix containing imageSources.
@@ -12,6 +15,7 @@ public class ImageMatrix {
     private final int matrixWidth;
 
     private final ImageSource[][] matrix;
+    private final Renderer renderer;
 
     public ImageMatrix(int iHt, int iWd, int mHt, int mWd) {
         imageHeight = iHt;
@@ -19,19 +23,17 @@ public class ImageMatrix {
         matrixHeight = mHt;
         matrixWidth = mWd;
         matrix = new ImageSource[matrixHeight][matrixWidth];
-        clear();
+        renderer = new Renderer(imageHeight, imageWidth);
     }
 
-    public void paint(Canvas canvas, int fromX, int fromY) {
+    public void paint(Canvas canvas, int fromX, int fromY, PaintInstruction paintInstruction) {
+        ImageSource imageSource;
+        BufferedImage renderedImage;
         for (int row = 0; row < matrixHeight; ++row) {
             for (int col = 0; col < matrixWidth; ++col) {
-                matrix[row][col].paint(
-                        canvas,
-                        fromX + row * imageHeight,
-                        fromY + col * imageWidth,
-                        imageHeight,
-                        imageWidth
-                );
+                imageSource = matrix[row][col];
+                renderedImage = imageSource.renderImage(renderer, imageHeight, imageWidth);
+                paintInstruction.paint(renderedImage, canvas, fromX, fromY, imageHeight, imageWidth);
             }
         }
     }
@@ -39,13 +41,4 @@ public class ImageMatrix {
     public void set(int row, int column, ImageSource imageSource) {
         matrix[row][column] = imageSource;
     }
-
-    public void clear() {
-        for (int row = 0; row < matrixHeight; ++row) {
-            for (int col = 0; col < matrixWidth; ++col) {
-                set(row, col, EmptyImageSource.get());
-            }
-        }
-    }
-
 }

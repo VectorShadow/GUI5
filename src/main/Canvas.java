@@ -6,15 +6,21 @@ import java.awt.image.BufferedImage;
  * The base layer to which all graphics are drawn.
  */
 public class Canvas {
+    final int BASE_RGB_VALUE;
     final int HEIGHT;
     final int WIDTH;
 
     private final BufferedImage IMAGE;
 
-    Canvas(int h, int w) {
+    Canvas(int rgb, int h, int w) {
+        BASE_RGB_VALUE = rgb;
         HEIGHT = h;
         WIDTH = w;
         IMAGE = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    }
+
+    public int getBaseRGBValue() {
+        return BASE_RGB_VALUE;
     }
 
     public void paint(int pixelRow, int pixelCol, int rgbValue) {
@@ -26,7 +32,7 @@ public class Canvas {
         IMAGE.setRGB(pixelCol, pixelRow, rgbValue);
     }
     void clear(){
-        clear(0);
+        clear(BASE_RGB_VALUE);
     }
     void clear(int rgbValue) {
         for (int h = 0; h < HEIGHT; ++h) {

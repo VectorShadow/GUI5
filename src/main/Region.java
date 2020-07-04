@@ -1,9 +1,7 @@
 package main;
 
-import images.ImageMatrix;
-import interfaces.MatrixUpdater;
-import interfaces.MouseInputHandler;
-import interfaces.NullMouseInputHandler;
+import implementation.mouseinputhandler.MouseInputHandler;
+import implementation.mouseinputhandler.NullMouseInputHandler;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -19,10 +17,9 @@ public class Region {
     final int UNIT_WIDTH;
     final int HEIGHT_IN_UNITS;
     final int WIDTH_IN_UNITS;
-    final MatrixUpdater MATRIX_UPDATER;
     final MouseInputHandler MOUSE_INPUT_HANDLER;
 
-    ImageMatrix imageMatrix;
+    final LayerList LAYER_LIST;
 
     /**
      * This region need not support mouse input.
@@ -31,13 +28,13 @@ public class Region {
             int originRow, int originColumn,
             int unitHeight, int unitWidth,
             int heightInUnits, int widthInUnits,
-            MatrixUpdater matrixUpdater
+            LayerList layerList
     ) {
         this(
                 originRow, originColumn,
                 unitHeight, unitWidth,
                 heightInUnits, widthInUnits,
-                matrixUpdater, new NullMouseInputHandler()
+                layerList, new NullMouseInputHandler()
         );
     }
 
@@ -45,7 +42,7 @@ public class Region {
             int originRow, int originColumn,
             int unitHeight, int unitWidth,
             int heightInUnits, int widthInUnits,
-            MatrixUpdater matrixUpdater,
+            LayerList layerList,
             MouseInputHandler mouseInputHandler
     ) {
         ORIGIN = new Point(originColumn, originRow);
@@ -53,9 +50,9 @@ public class Region {
         UNIT_WIDTH = unitWidth;
         HEIGHT_IN_UNITS = heightInUnits;
         WIDTH_IN_UNITS = widthInUnits;
-        MATRIX_UPDATER = matrixUpdater;
+        LAYER_LIST = layerList;
         MOUSE_INPUT_HANDLER = mouseInputHandler;
-        updateImageMatrix();
+        update();
     }
 
     /**
@@ -76,6 +73,8 @@ public class Region {
      */
     void handleMouseInput(Point externalIndex, MouseEvent mouseEvent) {
         Point unitIndex = unitIndex(externalIndex);
+        if (unitIndex == null)
+            throw new IllegalArgumentException("Attempted to handle mouse input for an event outside the Region.");
         MOUSE_INPUT_HANDLER.handleClickAt(unitIndex.x, unitIndex.y, mouseEvent);
     }
 
@@ -83,7 +82,7 @@ public class Region {
      * Use the image matrix to paint this region's content to the canvas.
      */
     void paint(Canvas canvas) {
-        imageMatrix.paint(canvas, ORIGIN.x, ORIGIN.y);
+        LAYER_LIST.paint(canvas, ORIGIN);
     }
 
     /**
@@ -98,8 +97,8 @@ public class Region {
      * This allows the source images to be updated without interfering with painting operations involving this Region's
      * existing ImageMatrix.
      */
-    void updateImageMatrix() {
-        imageMatrix = MATRIX_UPDATER.update(UNIT_HEIGHT, UNIT_WIDTH, HEIGHT_IN_UNITS, WIDTH_IN_UNITS);
+    void update() {
+        LAYER_LIST.update();
     }
 
     /**

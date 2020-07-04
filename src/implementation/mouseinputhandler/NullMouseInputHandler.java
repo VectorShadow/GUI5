@@ -1,4 +1,4 @@
-package interfaces;
+package implementation.mouseinputhandler;
 
 import java.awt.event.MouseEvent;
 

@@ -1,4 +1,4 @@
-package interfaces;
+package implementation.matrixupdater;
 
 import images.ImageMatrix;
 
@@ -9,5 +9,5 @@ import images.ImageMatrix;
  * should know how to center itself and translate game objects to either image indices or tile graphics.
  */
 public interface MatrixUpdater {
-    ImageMatrix update(int imageHeight, int imageWidth, int matrixHeight, int matrixWidth);
+    ImageMatrix update(int imageHeight, int imageWidth, int matrixHeight, int matrixWidth, int layer);
 }

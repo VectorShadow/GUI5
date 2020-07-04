@@ -1,6 +1,6 @@
 package images;
 
-import main.Canvas;
+import java.awt.image.BufferedImage;
 
 /**
  * Define an imageSource based on coordinates in an external image file.
@@ -15,8 +15,10 @@ public class TrueImageSource extends ImageSource {
     }
 
     @Override
-    public void paint(Canvas canvas, int fromX, int fromY, int height, int width) {
-        //todo - handle setting sources - static field?
-        //todo - use parameters to locate a subImage in the source to copy to a new Image.
+    public BufferedImage renderImage(Renderer renderer, int height, int width) {
+        //todo - use the Renderer to derive the source image file and use parameters to locate a subImage
+        // to copy to a new Image.
+        return null;
     }
+
 }

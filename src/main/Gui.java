@@ -6,7 +6,6 @@ import java.util.ArrayList;
  * The primary object for handling display, updates, and other management tasks.
  */
 //todo - display size handling, JFrame, JPanel/fullscreen, etc.
-//todo - external image file convention - extensions should indicate subimage size, e.g. "./images-24x24.png"
 public class Gui {
 
     private static Gui instance = null;
