@@ -1,18 +1,27 @@
 package main;
 
+import main.swing.OutputWindow;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
  * The primary object for handling display, updates, and other management tasks.
  */
-//todo - display size handling, JFrame, JPanel/fullscreen, etc.
 public class Gui {
+
+    //Remember the size of the frame and pane. On startup, default to half the size of the monitor.
+    private static Dimension lastWindowSize = getDefaultWindowSize();
 
     private static Gui instance = null;
 
     private Canvas canvas = null;
 
     private int currentChannel = -1;
+
+    private boolean fullScreenMode = false;
+
+    private OutputWindow outputWindow = null;
 
     private ArrayList<OutputChannel> outputChannels = new ArrayList<>();
 
@@ -24,8 +33,18 @@ public class Gui {
         return instance;
     }
 
-    public void generateCanvas(int h, int w) {
-        canvas = new Canvas(h, w);
+    public static Dimension getMonitorDimension() {
+        DisplayMode dm = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
+        return new Dimension(dm.getWidth(), dm.getHeight());
+    }
+    public static Dimension getDefaultWindowSize() {
+        return new Dimension(
+                (int)(Gui.getMonitorDimension().width / Math.sqrt(2.0)),
+                (int)(Gui.getMonitorDimension().height / Math.sqrt(2.0))
+        );
+    }
+    public static Dimension getLastWindowSize() {
+        return lastWindowSize;
     }
 
     /**
@@ -62,6 +81,47 @@ public class Gui {
     }
 
     /**
+     * Generate a canvas with the specified height and width.
+     */
+    public void generateCanvas(int h, int w) {
+        generateCanvas(0, h, w);
+    }
+
+    /**
+     * Generate a canvas with the specified background rgbValue, height, and width.
+     */
+    public void generateCanvas(int rgb, int h, int w) {
+        canvas = new Canvas(rgb, h, w);
+    }
+
+    /**
+     * Clean up the old output window if extant, then generate a new one based on the current fullscreen mode.
+     */
+    public void generateWindow() {
+        if (outputWindow != null)
+            outputWindow.dispose();
+        outputWindow = new OutputWindow(fullScreenMode);
+    }
+
+    /**
+     * Redraw the window image by using the current channel to repaint the canvas, then refreshing the output window
+     * with the resulting canvas image.
+     */
+    public void redraw() {
+        getChannel().paint(canvas);
+        outputWindow.refresh(canvas.getImage());
+    }
+
+    /**
+     * Toggle between full screen and windowed modes.
+     */
+    public void toggleFullScreenMode() {
+        fullScreenMode = !fullScreenMode;
+        generateWindow();
+        redraw();
+    }
+
+    /**
      * Update all Regions in all OutputChannels.
      */
     public void update() {
@@ -84,6 +144,9 @@ public class Gui {
         getChannel(channelIndex).update(regionIndex);
     }
 
+    private OutputChannel getChannel() {
+        return getChannel(currentChannel);
+    }
     private OutputChannel getChannel(int index) {
         return outputChannels.get(index);
     }
@@ -97,4 +160,10 @@ public class Gui {
         if (currentChannel < 0)
             throw new IllegalStateException("No OutputChannel found - use .addOutputChannel() first");
     }
+
+    private void requireWindow() {
+        if (outputWindow == null)
+            throw new IllegalStateException("OutputWindow not found - use .generateWindow() first");
+    }
+
 }

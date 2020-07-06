@@ -32,8 +32,11 @@ public class ImageMatrix {
         for (int row = 0; row < matrixHeight; ++row) {
             for (int col = 0; col < matrixWidth; ++col) {
                 imageSource = matrix[row][col];
-                renderedImage = imageSource.renderImage(renderer, imageHeight, imageWidth);
-                paintInstruction.paint(renderedImage, canvas, fromX, fromY, imageHeight, imageWidth);
+                renderedImage =
+                        imageSource == null
+                                ? null
+                                : imageSource.renderImage(renderer, imageHeight, imageWidth);
+                paintInstruction.paint(renderedImage, canvas, fromX + (col * imageWidth), fromY + (row * imageHeight), imageHeight, imageWidth);
             }
         }
     }

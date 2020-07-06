@@ -68,6 +68,6 @@ class OutputChannel {
      * Update the region source corresponding to the specified index.
      */
     void update(int regionIndex) {
-        regionList.get(regionIndex).updateImageMatrix();
+        regionList.get(regionIndex).update();
     }
 }

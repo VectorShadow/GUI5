@@ -42,7 +42,7 @@ public class Canvas {
         }
     }
 
-    BufferedImage getImage() {
+    public BufferedImage getImage() {
         return IMAGE;
     }
 }
