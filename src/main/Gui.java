@@ -1,5 +1,6 @@
 package main;
 
+import main.swing.G5MouseListener;
 import main.swing.OutputWindow;
 
 import java.awt.*;
@@ -13,8 +14,6 @@ public class Gui {
     //Remember the size of the frame and pane. On startup, default to half the size of the monitor.
     private static Dimension lastWindowSize = getDefaultWindowSize();
 
-    private static Gui instance = null;
-
     private Canvas canvas = null;
 
     private int currentChannel = -1;
@@ -25,72 +24,46 @@ public class Gui {
 
     private ArrayList<OutputChannel> outputChannels = new ArrayList<>();
 
-    private Gui() {}
-
-    public static Gui getInstance() {
-        if (instance == null)
-            instance = new Gui();
-        return instance;
-    }
+    Gui() {}
 
     public static Dimension getMonitorDimension() {
         DisplayMode dm = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
         return new Dimension(dm.getWidth(), dm.getHeight());
     }
-    public static Dimension getDefaultWindowSize() {
+
+    public static Dimension getLastWindowSize() {
+        return lastWindowSize;
+    }
+
+    private static Dimension getDefaultWindowSize() {
         return new Dimension(
                 (int)(Gui.getMonitorDimension().width / Math.sqrt(2.0)),
                 (int)(Gui.getMonitorDimension().height / Math.sqrt(2.0))
         );
     }
-    public static Dimension getLastWindowSize() {
-        return lastWindowSize;
-    }
 
     /**
      * Add a new OutputChannel to this GUI.
-     * @return the index of the added OutputChannel.
      */
-    public int addOutputChannel() {
+    void addOutputChannel() {
         outputChannels.add(new OutputChannel());
         if (currentChannel < 0) //if this is the first channel we are adding,
             currentChannel = 0; //set the current channel - otherwise do not change the current channel when adding
-        return outputChannels.size() - 1;
     }
 
     /**
      * Add a new Region to the current OutputChannel.
-     * @param region a pre-defined Region to add to the current OutputChannel.
-     * @return the index of the added Region.
      */
-    public int addRegion(Region region) {
-        return addRegion(region, currentChannel);
-    }
-
-    /**
-     * Add a new Region to the current OutputChannel.
-     * @param region a pre-defined Region to add to the current OutputChannel.
-     * @param outputChannelIndex the index of the OutputChannel to which the region will be added.
-     * @return the index of the added Region.
-     */
-    public int addRegion(Region region, int outputChannelIndex) {
+    void addRegion(Region region) {
         requireChannel();
-        OutputChannel oc = getChannel(outputChannelIndex);
+        OutputChannel oc = getChannel(currentChannel);
         oc.pushRegion(region);
-        return oc.countRegions() - 1;
-    }
-
-    /**
-     * Generate a canvas with the specified height and width.
-     */
-    public void generateCanvas(int h, int w) {
-        generateCanvas(0, h, w);
     }
 
     /**
      * Generate a canvas with the specified background rgbValue, height, and width.
      */
-    public void generateCanvas(int rgb, int h, int w) {
+    void generateCanvas(int rgb, int h, int w) {
         canvas = new Canvas(rgb, h, w);
     }
 
@@ -98,9 +71,13 @@ public class Gui {
      * Clean up the old output window if extant, then generate a new one based on the current fullscreen mode.
      */
     public void generateWindow() {
-        if (outputWindow != null)
+        if (outputWindow != null) {
+            if (fullScreenMode)
+                lastWindowSize = outputWindow.getSize(); //remember the current windowed mode size
             outputWindow.dispose();
+        }
         outputWindow = new OutputWindow(fullScreenMode);
+        outputWindow.addMouseListener(new G5MouseListener());
     }
 
     /**
@@ -108,8 +85,14 @@ public class Gui {
      * with the resulting canvas image.
      */
     public void redraw() {
+        requireCanvas();
+        requireWindow();
         getChannel().paint(canvas);
         outputWindow.refresh(canvas.getImage());
+    }
+
+    public void setCurrentChannel(int channel) {
+        currentChannel = channel;
     }
 
     /**
@@ -153,7 +136,7 @@ public class Gui {
 
     private void requireCanvas() {
         if (canvas == null)
-            throw new IllegalStateException("Canvas not found - use .generateCanvas() first");
+            throw new IllegalStateException("Size undefined - use .setSize() first");
     }
 
     private void requireChannel() {

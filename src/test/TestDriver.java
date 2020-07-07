@@ -1,36 +1,31 @@
 package test;
 
-import implementation.matrixupdater.EmptyMatrixUpdater;
 import implementation.paintinstructions.BaseLayerPaintInstruction;
 import implementation.paintinstructions.DefaultPaintInstruction;
 import main.Gui;
-import main.Region;
+import main.GuiBuilder;
 
 public class TestDriver {
 
     public static void main(String[] args) throws InterruptedException {
-        //todo - we should probably have a builder class to streamline the below:
-        Gui gui = Gui.getInstance();
-        gui.generateCanvas(256, 512);
-        gui.addOutputChannel();
-        gui.addRegion(
-                new Region(
-                        0,
-                        0,
-                        16,
-                        16,
-                        16,
-                        32,
+        Gui gui = GuiBuilder
+                .buildGui()
+                .setSize(256, 512)
+                .addOutputChannel()
+                .addRegion(
+                        0, 0,
+                        16, 16,
+                        16, 32,
                         new TestMatrixUpdater(),
                         new BaseLayerPaintInstruction(),
-                        new DefaultPaintInstruction())
-        );
-        gui.generateWindow();
+                        new DefaultPaintInstruction()
+                )
+                .build();
         gui.update();
         gui.redraw();
-        Thread.sleep(250);
+        Thread.sleep(1500);
         gui.toggleFullScreenMode();
-        Thread.sleep(2500);
+        Thread.sleep(1000);
         gui.toggleFullScreenMode();
     }
 }

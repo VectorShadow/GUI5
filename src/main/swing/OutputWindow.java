@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 /**
  * The primary display window for the GUI.
  */
-//todo - support manual window resizing - this needs to be supported by OutputPanel as well.
 public class OutputWindow extends JFrame {
 
     private OutputPanel outputPanel = null;
@@ -51,9 +50,7 @@ public class OutputWindow extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         if (keyListener != null) addKeyListener(keyListener);
-        addMouseListener(mouseListener = new G5MouseListener());
-        //todo - it might behoove us to do do the mouseListener entirely at the Gui level,
-        // where it has access to MouseInputHandlers.
+        if (mouseListener != null) addMouseListener(mouseListener);
         if (windowListener != null) addWindowListener(windowListener);
         if (fullScreenMode) {
             setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -64,6 +61,28 @@ public class OutputWindow extends JFrame {
                 setIconImage(new ImageIcon(iconImagePath).getImage());
             setTitle(frameTitle);
         }
+    }
+
+    /**
+     * Save added Listeners as static fields so they can be automatically reapplied to new windows during
+     * fullscreen/windowed transitions.
+     */
+    @Override
+    public synchronized void addKeyListener(KeyListener l) {
+        super.addKeyListener(l);
+        keyListener = l;
+    }
+
+    @Override
+    public void addMouseListener(MouseListener l) {
+        super.addMouseListener(l);
+        mouseListener = l;
+    }
+
+    @Override
+    public void addWindowListener(WindowListener l) {
+        super.addWindowListener(l);
+        windowListener = l;
     }
 
     public void refresh(BufferedImage bufferedImage) {

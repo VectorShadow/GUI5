@@ -2,7 +2,6 @@ package main;
 
 import implementation.matrixupdater.MatrixUpdater;
 import implementation.mouseinputhandler.MouseInputHandler;
-import implementation.mouseinputhandler.NullMouseInputHandler;
 import implementation.paintinstructions.PaintInstruction;
 
 import java.awt.*;
@@ -13,7 +12,7 @@ import java.awt.event.MouseEvent;
  * input/output space. Higher level functions, such as formatting text, should be handled elsewhere.
  * Specific region types, such as for image tiles or text tiles, should extend this class.
  */
-public class Region {
+class Region {
     private final Point ORIGIN;
     private final int UNIT_HEIGHT;
     private final int UNIT_WIDTH;
@@ -23,34 +22,15 @@ public class Region {
 
     private final LayerList LAYER_LIST;
 
-    /**
-     * This region need not support mouse input.
-     */
-    public Region(
-            int originRow, int originColumn,
-            int unitHeight, int unitWidth,
-            int heightInUnits, int widthInUnits,
-            MatrixUpdater matrixUpdater,
-            PaintInstruction... paintInstructions
-    ) {
-        this(
-                originRow, originColumn,
-                unitHeight, unitWidth,
-                heightInUnits, widthInUnits,
-                matrixUpdater, new NullMouseInputHandler(),
-                paintInstructions
-        );
-    }
-
-    public Region(
-            int originRow, int originColumn,
+    Region(
+            Point origin,
             int unitHeight, int unitWidth,
             int heightInUnits, int widthInUnits,
             MatrixUpdater matrixUpdater,
             MouseInputHandler mouseInputHandler,
             PaintInstruction... paintInstructions
     ) {
-        ORIGIN = new Point(originColumn, originRow);
+        ORIGIN = origin;
         UNIT_HEIGHT = unitHeight;
         UNIT_WIDTH = unitWidth;
         HEIGHT_IN_UNITS = heightInUnits;
