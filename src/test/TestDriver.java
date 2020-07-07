@@ -5,12 +5,14 @@ import implementation.paintinstructions.DefaultPaintInstruction;
 import main.Gui;
 import main.GuiBuilder;
 
+import java.awt.*;
+
 public class TestDriver {
 
     public static void main(String[] args) throws InterruptedException {
         Gui gui = GuiBuilder
                 .buildGui()
-                .setSize(256, 512)
+                .setSize(Color.DARK_GRAY.getRGB(),256, 512)
                 .addOutputChannel()
                 .addRegion(
                         0, 0,
