@@ -110,17 +110,17 @@ public class GuiBuilder {
      * @param width in pixels
      */
     public GuiBuilder setSize(int height, int width) {
-        return setSize(0, height, width);
+        return setSizeAndColor(height, width, 0);
     }
 
     /**
      * Set the size of the Canvas used for painting by this Gui.
-     * @param rgbValue the rgbValue of the default background color for this Gui.
      * @param height in pixels
      * @param width in pixels
+     * @param rgbValue the rgbValue of the default background color for this Gui.
      */
-    public GuiBuilder setSize(int rgbValue, int height, int width) {
-        gui.generateCanvas(rgbValue, height, width);
+    public GuiBuilder setSizeAndColor(int height, int width, int rgbValue) {
+        gui.generateCanvas(height, width, rgbValue);
         return this;
     }
 }

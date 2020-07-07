@@ -12,7 +12,7 @@ public class TestDriver {
     public static void main(String[] args) throws InterruptedException {
         Gui gui = GuiBuilder
                 .buildGui()
-                .setSize(Color.DARK_GRAY.getRGB(),256, 512)
+                .setSizeAndColor(256, 512, Color.DARK_GRAY.getRGB())
                 .addOutputChannel()
                 .addRegion(
                         0, 0,

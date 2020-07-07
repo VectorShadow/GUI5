@@ -12,7 +12,7 @@ public class Canvas {
 
     private final BufferedImage IMAGE;
 
-    Canvas(int rgb, int h, int w) {
+    Canvas(int h, int w, int rgb) {
         BASE_RGB_VALUE = rgb;
         HEIGHT = h;
         WIDTH = w;

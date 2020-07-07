@@ -61,10 +61,10 @@ public class Gui {
     }
 
     /**
-     * Generate a canvas with the specified background rgbValue, height, and width.
+     * Generate a canvas with the specified height, width, and background rgbValue.
      */
-    void generateCanvas(int rgb, int h, int w) {
-        canvas = new Canvas(rgb, h, w);
+    void generateCanvas(int h, int w, int rgb) {
+        canvas = new Canvas(h, w, rgb);
     }
 
     /**
