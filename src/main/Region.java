@@ -63,7 +63,7 @@ class Region {
         Point unitIndex = unitIndex(externalIndex);
         if (unitIndex == null)
             throw new IllegalArgumentException("Attempted to handle mouse input for an event outside the Region.");
-        MOUSE_INPUT_HANDLER.handleClickAt(unitIndex.x, unitIndex.y, mouseEvent);
+        MOUSE_INPUT_HANDLER.handleEventAt(unitIndex.x, unitIndex.y, mouseEvent);
     }
 
     /**

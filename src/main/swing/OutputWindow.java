@@ -75,7 +75,7 @@ public class OutputWindow extends JFrame {
 
     @Override
     public void addMouseListener(MouseListener l) {
-        super.addMouseListener(l);
+        outputPanel.addMouseListener(l);
         mouseListener = l;
     }
 
@@ -83,6 +83,10 @@ public class OutputWindow extends JFrame {
     public void addWindowListener(WindowListener l) {
         super.addWindowListener(l);
         windowListener = l;
+    }
+
+    public Dimension getPanelSize() {
+        return outputPanel.getSize();
     }
 
     public void refresh(BufferedImage bufferedImage) {

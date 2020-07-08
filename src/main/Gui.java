@@ -2,8 +2,10 @@ package main;
 
 import main.swing.G5MouseListener;
 import main.swing.OutputWindow;
+import mis.MapwiseImageScaler;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
@@ -77,7 +79,26 @@ public class Gui {
             outputWindow.dispose();
         }
         outputWindow = new OutputWindow(fullScreenMode);
-        outputWindow.addMouseListener(new G5MouseListener());
+        outputWindow.addMouseListener(new G5MouseListener(this));
+    }
+
+    /**
+     * Pass a mouseEvent from a G5MouseListener to a region specific MouseInputHandler.
+     * @param mouseEvent the mouseEvent received by the listener
+     */
+    public void handleMouseInput(MouseEvent mouseEvent) {
+        Point windowCoordinates = mouseEvent.getPoint();
+        Point canvasCoordinates =
+                MapwiseImageScaler.mapTargetToSource(
+                        windowCoordinates,
+                        canvas.HEIGHT,
+                        canvas.WIDTH,
+                        outputWindow.getPanelSize().height,
+                        outputWindow.getPanelSize().width
+                );
+        Region region = getChannel().locate(canvasCoordinates);
+        if (region != null)
+            region.handleMouseInput(canvasCoordinates, mouseEvent);
     }
 
     /**

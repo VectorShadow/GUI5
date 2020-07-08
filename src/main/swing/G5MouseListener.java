@@ -1,35 +1,37 @@
 package main.swing;
 
+import main.Gui;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-//todo - lots of work here probably: we need to find where the mouse is, rescale that position from the OutputPanel
-// Dimension to the Canvas Dimension, translate that to regional coordinates,
-// and report those coordinates along with the mouseEvent to the appropriate MouseInputHandler.
+/**
+ * This MouseListener maintains a reference to the Gui it is associated with, translating each Overridden method to
+ * one of the constants specified by the MouseInputHandler interface, then passing the triggering event and the constant
+ * to the GUI to locate an appropriate MouseInputHandler to handle the event.
+ */
 public class G5MouseListener implements MouseListener {
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        //todo - we need the getX and getY values
-        System.out.println("x: " + e.getX() + " y: " + e.getY() + " xOnScreen: " + e.getXOnScreen() + " yOnScreen: " +e.getYOnScreen());
+
+    private final Gui GUI;
+
+    public G5MouseListener(Gui gui) {
+        GUI = gui;
     }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {}
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        GUI.handleMouseInput(e);
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    public void mouseExited(MouseEvent e) {}
 }

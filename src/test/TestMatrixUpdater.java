@@ -24,7 +24,9 @@ public class TestMatrixUpdater implements MatrixUpdater {
                 imageMatrix.set(3, 8, new TextImageSource(Color.BLACK, Color.GREEN, 'E'));
                 imageMatrix.set(3, 9, new TextImageSource(Color.BLACK, Color.GREEN, 'S'));
                 imageMatrix.set(3, 10, new TextImageSource(Color.BLACK, Color.GREEN, 'T'));
-
+                Point p = TestMouseInputHandler.LAST_CLICK;
+                if (p != null)
+                    imageMatrix.set(p.y, p.x, new TextImageSource(Color.BLACK, Color.YELLOW, 'X'));
                 break;
                 default:
                     throw new IllegalArgumentException("This MatrixUpdater does not support layer " + layer);

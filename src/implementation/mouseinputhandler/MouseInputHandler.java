@@ -9,5 +9,5 @@ import java.awt.event.MouseEvent;
  * generate a movement or attack or examine command.
  */
 public interface MouseInputHandler {
-    void handleClickAt(int column, int row, MouseEvent mouseEvent);
+    void handleEventAt(int column, int row, MouseEvent mouseEvent);
 }
