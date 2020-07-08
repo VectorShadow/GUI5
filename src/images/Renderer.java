@@ -9,15 +9,10 @@ import java.awt.*;
  * conventionally titled external image files for TrueImageSources.
  */
 public class Renderer extends JLabel {
-    //todo - external image file convention - extensions should indicate subimage size, e.g. "./images-24x24.png"
 
     private static String imageDirectoryPath = "./";
 
-    private Color emptyColor = Color.BLACK;
-
-    private JLabel jLabel;
-
-    public Renderer(int imageHeight, int imageWidth) {
+    Renderer(int imageHeight, int imageWidth) {
         setSize(new Dimension(imageWidth, imageHeight));
         setFont(new Font(Font.DIALOG, Font.PLAIN, (int)((double)imageHeight * 0.75)));
         setHorizontalAlignment(SwingConstants.CENTER);
@@ -27,10 +22,6 @@ public class Renderer extends JLabel {
     //todo - this needs work, but the idea is to establish a convention and easily load conventionally named files
     public String getImageFilePath() {
         return imageDirectoryPath + "" + getWidth() + "x" + getHeight() + ".png";
-    }
-
-    public void setEmptyColor(Color color) {
-        emptyColor = color;
     }
 
     public static void setImageDirectoryPath(String directoryPathName) {
