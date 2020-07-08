@@ -5,7 +5,9 @@ import main.swing.OutputWindow;
 import mis.MapwiseImageScaler;
 
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 /**
@@ -72,7 +74,7 @@ public class Gui {
     /**
      * Clean up the old output window if extant, then generate a new one based on the current fullscreen mode.
      */
-    public void generateWindow() {
+    void generateWindow() {
         if (outputWindow != null) {
             if (fullScreenMode)
                 lastWindowSize = outputWindow.getSize(); //remember the current windowed mode size
@@ -80,6 +82,16 @@ public class Gui {
         }
         outputWindow = new OutputWindow(fullScreenMode);
         outputWindow.addMouseListener(new G5MouseListener(this));
+    }
+
+    void addKeyListener(KeyListener keyListener) {
+        requireWindow();
+        outputWindow.addKeyListener(keyListener);
+    }
+
+    void addWindowListener(WindowListener windowListener) {
+        requireWindow();
+        outputWindow.addWindowListener(windowListener);
     }
 
     /**

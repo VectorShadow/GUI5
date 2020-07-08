@@ -6,6 +6,8 @@ import implementation.mouseinputhandler.NullMouseInputHandler;
 import implementation.paintinstructions.PaintInstruction;
 
 import java.awt.*;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowListener;
 
 public class GuiBuilder {
 
@@ -81,6 +83,16 @@ public class GuiBuilder {
                         paintInstructions
                 )
         );
+        return this;
+    }
+
+    public GuiBuilder addKeyListener(KeyListener keyListener) {
+        gui.addKeyListener(keyListener);
+        return this;
+    }
+
+    public GuiBuilder addWindowListener(WindowListener windowListener) {
+        gui.addWindowListener(windowListener);
         return this;
     }
 
