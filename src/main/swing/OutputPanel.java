@@ -1,7 +1,7 @@
 package main.swing;
 
 import main.Gui;
-import mis.MapwiseImageScaler;
+import main.MapwiseImageScaler;
 
 import javax.swing.*;
 import java.awt.*;

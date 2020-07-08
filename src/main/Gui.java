@@ -2,7 +2,6 @@ package main;
 
 import main.swing.G5MouseListener;
 import main.swing.OutputWindow;
-import mis.MapwiseImageScaler;
 
 import java.awt.*;
 import java.awt.event.KeyListener;
