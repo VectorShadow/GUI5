@@ -220,10 +220,10 @@ public class Gui {
             throw new IllegalStateException("Invalid region origin - x(" + x + ") < 0.");
         if (y < 0)
             throw new IllegalStateException("Invalid region origin - y(" + y + ") < 0.");
-        if (X >= canvas.HEIGHT)
-            throw new IllegalStateException("Invalid region size - X(" + X + ") >= " + canvas.HEIGHT);
-        if (Y >= canvas.WIDTH)
-            throw new IllegalStateException("Invalid region size - Y(" + Y + ") >= " + canvas.WIDTH);
+        if (X > canvas.HEIGHT)
+            throw new IllegalStateException("Invalid region size - X(" + X + ") > " + canvas.HEIGHT);
+        if (Y > canvas.WIDTH)
+            throw new IllegalStateException("Invalid region size - Y(" + Y + ") > " + canvas.WIDTH);
     }
 
 }
