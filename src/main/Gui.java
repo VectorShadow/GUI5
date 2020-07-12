@@ -11,6 +11,22 @@ import java.util.ArrayList;
 
 /**
  * The primary object for handling display, updates, and other management tasks.
+ * Guis should be constructed via the GuiBuilder class, and interacted with via this class.
+ *
+ * setCurrentChannel(int channel):
+ * This method sets the current channel used by redraw() to the OutputChannel corresponding to the specified channel
+ * index. OutputChannel indices correspond to the order in which channels are added via GuiBuilder, beginning with 0.
+ *
+ * toggleFullScreenMode():
+ * This method switches the Gui between windowed and full screen modes. It does this by generating a new swing frame
+ * and repopulating it with all relevant data from the current frame, including listeners.
+ *
+ * update():
+ * These methods update the ImageMatrices which provide the source images for redrawing the image on the swing frame.
+ * Called without arguments, it updates, in sequence, each layer within each region within each channel.
+ * It can be narrowed in scope by providing up to three int parameters. The first corresponds to a single specific
+ * channel, the second to a single specific region within that channel, and the third to a single specific layer
+ * within that region.
  */
 public class Gui {
 
@@ -59,6 +75,7 @@ public class Gui {
      */
     void addRegion(Region region) {
         requireChannel();
+        validateRegion(region);
         OutputChannel oc = getChannel(currentChannel);
         oc.pushRegion(region);
     }
@@ -116,13 +133,16 @@ public class Gui {
      * Redraw the window image by using the current channel to repaint the canvas, then refreshing the output window
      * with the resulting canvas image.
      */
-    public void redraw() {
+    void redraw() {
         requireCanvas();
         requireWindow();
         getChannel().paint(canvas);
         outputWindow.refresh(canvas.getImage());
     }
 
+    /**
+     * Set the channel used for drawing the screen to the OutputChannel corresponding to the specified index.
+     */
     public void setCurrentChannel(int channel) {
         currentChannel = channel;
     }
@@ -159,10 +179,19 @@ public class Gui {
         getChannel(channelIndex).update(regionIndex);
     }
 
+    /**
+     * Update the layer specified by the layerIndex, within the region corresponding to the specified regionIndex,
+     * within the OutputChannel corresponding to the specified channelIndex.
+     */
+    public void update(int channelIndex, int regionIndex, int layerIndex) {
+        getChannel(channelIndex).update(regionIndex, layerIndex);
+    }
+
     private OutputChannel getChannel() {
         return getChannel(currentChannel);
     }
     private OutputChannel getChannel(int index) {
+        requireChannel();
         return outputChannels.get(index);
     }
 
@@ -179,6 +208,22 @@ public class Gui {
     private void requireWindow() {
         if (outputWindow == null)
             throw new IllegalStateException("OutputWindow not found - use .generateWindow() first");
+    }
+
+    private void validateRegion(Region region) {
+        requireCanvas();
+        int x = region.ORIGIN.x;
+        int y = region.ORIGIN.y;
+        int X = x + (region.HEIGHT_IN_UNITS * region.UNIT_HEIGHT);
+        int Y = y + (region.WIDTH_IN_UNITS * region.UNIT_WIDTH);
+        if (x < 0)
+            throw new IllegalStateException("Invalid region origin - x(" + x + ") < 0.");
+        if (y < 0)
+            throw new IllegalStateException("Invalid region origin - y(" + y + ") < 0.");
+        if (X >= canvas.HEIGHT)
+            throw new IllegalStateException("Invalid region size - X(" + X + ") >= " + canvas.HEIGHT);
+        if (Y >= canvas.WIDTH)
+            throw new IllegalStateException("Invalid region size - Y(" + Y + ") >= " + canvas.WIDTH);
     }
 
 }

@@ -15,7 +15,7 @@ class OutputPanel extends JPanel {
     private BufferedImage originalImage;
     private BufferedImage scaledImage;
 
-    public OutputPanel(boolean fullScreenMode) {
+    OutputPanel(boolean fullScreenMode) {
         if (fullScreenMode) {
             Dimension monitorDimension = Gui.getMonitorDimension();
             setPreferredSize(monitorDimension);

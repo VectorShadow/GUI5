@@ -13,6 +13,5 @@ public class TestMouseInputHandler implements MouseInputHandler {
     public void handleEventAt(int column, int row, MouseEvent mouseEvent) {
         LAST_CLICK = new Point(column, row);
         TestDriver.gui.update(0, 0);
-        TestDriver.gui.redraw();
     }
 }

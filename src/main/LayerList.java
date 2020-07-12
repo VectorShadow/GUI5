@@ -56,4 +56,11 @@ class LayerList {
             updatedMatrices[i] = MATRIX_UPDATER.update(IMAGE_HEIGHT, IMAGE_WIDTH, MATRIX_HEIGHT, MATRIX_WIDTH, i);
         imageMatrices = updatedMatrices;
     }
+
+    /**
+     * Use the MatrixUpdater to update the information in only the specified draw layer.
+     */
+    void update(int i) {
+        imageMatrices[i] = MATRIX_UPDATER.update(IMAGE_HEIGHT, IMAGE_WIDTH, MATRIX_HEIGHT, MATRIX_WIDTH, i);
+    }
 }

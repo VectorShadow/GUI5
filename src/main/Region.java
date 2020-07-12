@@ -13,11 +13,11 @@ import java.awt.event.MouseEvent;
  * Specific region types, such as for image tiles or text tiles, should extend this class.
  */
 class Region {
-    private final Point ORIGIN;
-    private final int UNIT_HEIGHT;
-    private final int UNIT_WIDTH;
-    private final int HEIGHT_IN_UNITS;
-    private final int WIDTH_IN_UNITS;
+    final Point ORIGIN;
+    final int UNIT_HEIGHT;
+    final int UNIT_WIDTH;
+    final int HEIGHT_IN_UNITS;
+    final int WIDTH_IN_UNITS;
     private final MouseInputHandler MOUSE_INPUT_HANDLER;
 
     private final LayerList LAYER_LIST;
@@ -81,12 +81,17 @@ class Region {
     }
 
     /**
-     * Generate a new imageMatrix based on the specifications of this region's MatrixUpdater.
-     * This allows the source images to be updated without interfering with painting operations involving this Region's
-     * existing ImageMatrix.
+     * Update all draw layers for this region.
      */
     void update() {
         LAYER_LIST.update();
+    }
+
+    /**
+     * Update the specified draw layer for this region.
+     */
+    void update(int layerIndex) {
+        LAYER_LIST.update(layerIndex);
     }
 
     /**

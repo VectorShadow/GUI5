@@ -27,10 +27,9 @@ public class TestDriver {
                 )
                 .build();
         gui.update();
-        gui.redraw();
-//        Thread.sleep(1500);
-//        gui.toggleFullScreenMode();
-//        Thread.sleep(1000);
-//        gui.toggleFullScreenMode();
+        Thread.sleep(1500);
+        gui.toggleFullScreenMode();
+        Thread.sleep(1000);
+        gui.toggleFullScreenMode();
     }
 }

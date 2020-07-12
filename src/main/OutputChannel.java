@@ -70,4 +70,11 @@ class OutputChannel {
     void update(int regionIndex) {
         regionList.get(regionIndex).update();
     }
+
+    /**
+     * Update the specified source layer within the region corresponding to the specified index.
+     */
+    void update(int regionIndex, int layerIndex) {
+        regionList.get(regionIndex).update(layerIndex);
+    }
 }
