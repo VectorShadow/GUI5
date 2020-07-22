@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GUI5.iml" filepath="$PROJECT_DIR$/GUI5.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../MapwiseImageScaler/MapwiseImageScaler.iml" filepath="$PROJECT_DIR$/../MapwiseImageScaler/MapwiseImageScaler.iml" />
     </modules>
   </component>
 </project>

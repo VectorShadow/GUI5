@@ -116,14 +116,11 @@ public class Gui {
      */
     public void handleMouseInput(MouseEvent mouseEvent) {
         Point windowCoordinates = mouseEvent.getPoint();
-        Point canvasCoordinates =
-                MapwiseImageScaler.mapTargetToSource(
-                        windowCoordinates,
-                        canvas.HEIGHT,
-                        canvas.WIDTH,
-                        outputWindow.getPanelSize().height,
-                        outputWindow.getPanelSize().width
-                );
+        double heightRatio = (double)canvas.HEIGHT / outputWindow.getPanelSize().getHeight();
+        double widthRatio = (double)canvas.WIDTH / outputWindow.getPanelSize().getWidth();
+        int canvasX = (int)Math.floor((double)windowCoordinates.x * widthRatio);
+        int canvasY = (int)Math.floor((double)windowCoordinates.y * heightRatio);
+        Point canvasCoordinates = new Point(canvasX, canvasY);
         Region region = getChannel().locate(canvasCoordinates);
         if (region != null)
             region.handleMouseInput(canvasCoordinates, mouseEvent);

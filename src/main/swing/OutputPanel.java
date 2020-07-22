@@ -1,10 +1,11 @@
 package main.swing;
 
 import main.Gui;
-import main.MapwiseImageScaler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 /**
@@ -64,7 +65,14 @@ class OutputPanel extends JPanel {
     }
 
     private void scaleImage() {
-        if (originalImage != null)
-            scaledImage = MapwiseImageScaler.scale(originalImage, getHeight(), getWidth());
+        if (originalImage == null)
+            return;
+        double heightRatio = (double)getHeight() / (double)originalImage.getHeight();
+        double widthRatio = (double)getWidth() / (double)originalImage.getWidth();
+        scaledImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        AffineTransform affineTransform = new AffineTransform();
+        affineTransform.scale(widthRatio, heightRatio);
+        AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        scaledImage = affineTransformOp.filter(originalImage, scaledImage);
     }
 }
