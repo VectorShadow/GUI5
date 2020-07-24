@@ -2,6 +2,9 @@ package images;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Renderer provides the tools for transforming an ImageSource into a BufferedImage.
@@ -10,7 +13,7 @@ import java.awt.*;
  */
 public class Renderer extends JLabel {
 
-    private static String imageDirectoryPath = "./";
+    private static String imageDirectoryPath = "./gfx";
 
     Renderer(int imageHeight, int imageWidth) {
         setSize(new Dimension(imageWidth, imageHeight));
@@ -21,10 +24,17 @@ public class Renderer extends JLabel {
 
     //todo - this needs work, but the idea is to establish a convention and easily load conventionally named files
     public String getImageFilePath() {
-        return imageDirectoryPath + "" + getWidth() + "x" + getHeight() + ".png";
+        return imageDirectoryPath + "/" + getWidth() + "x" + getHeight() + ".png";
     }
 
     public static void setImageDirectoryPath(String directoryPathName) {
         imageDirectoryPath = directoryPathName;
+        if (!Files.exists(Paths.get(imageDirectoryPath))){
+            try {
+                Files.createDirectory(Paths.get(imageDirectoryPath));
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Unable to create directory matching " + directoryPathName);
+            }
+        }
     }
 }

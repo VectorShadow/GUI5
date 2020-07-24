@@ -2,9 +2,14 @@ package implementation.matrixupdater;
 
 import images.ImageMatrix;
 
-public class EmptyMatrixUpdater implements MatrixUpdater {
+public class EmptyMatrixUpdater extends MatrixUpdater {
+
+    public EmptyMatrixUpdater() {
+        super(1);
+    }
+
     @Override
-    public ImageMatrix update(int imageHeight, int imageWidth, int matrixHeight, int matrixWidth, int layer) {
-        return new ImageMatrix(imageHeight, imageWidth, matrixHeight, matrixWidth);
+    protected ImageMatrix doUpdate() {
+        return LAYERS[currentLayer];
     }
 }

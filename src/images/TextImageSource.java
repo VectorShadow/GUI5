@@ -37,4 +37,9 @@ public class TextImageSource extends ImageSource {
         return bi;
     }
 
+    @Override
+    public Color getBackgroundColor() {
+        return background;
+    }
+
 }

@@ -3,6 +3,7 @@ package images;
 import implementation.paintinstructions.PaintInstruction;
 import main.Canvas;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -24,6 +25,26 @@ public class ImageMatrix {
         matrixWidth = mWd;
         matrix = new ImageSource[matrixHeight][matrixWidth];
         renderer = new Renderer(imageHeight, imageWidth);
+    }
+
+    public Color getBackgroundColorAt(int x, int y) {
+        return matrix[y][x].getBackgroundColor();
+    }
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    public int getMatrixHeight() {
+        return matrixHeight;
+    }
+
+    public int getMatrixWidth() {
+        return matrixWidth;
     }
 
     public void paint(Canvas canvas, int fromX, int fromY, PaintInstruction paintInstruction) {
