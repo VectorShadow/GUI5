@@ -1,12 +1,7 @@
 package images;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /**
  * Define an imageSource based on coordinates in an external image file.
@@ -22,14 +17,10 @@ public class TrueImageSource extends ImageSource {
 
     @Override
     public BufferedImage renderImage(Renderer renderer, int height, int width) {
-        BufferedImage sourceImage = null;
-        try {
-            sourceImage = ImageIO.read(new File(renderer.getImageFilePath()));
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
+        BufferedImage sourceImage = renderer.getSourceImage();
+        BufferedImage sourceSubImage = sourceImage.getSubimage(sourceColumn * width,sourceRow * height, width, height);
         //todo - apply image recoloring if desired
-        return sourceImage;
+        return sourceSubImage;
     }
 
     @Override
