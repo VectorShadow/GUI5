@@ -101,6 +101,7 @@ public class GuiBuilder {
      */
     public GuiBuilder setSizeAndColor(int height, int width, int rgbValue) {
         gui.generateCanvas(height, width, rgbValue);
+        gui.generateWindow();
         return this;
     }
 
@@ -195,7 +196,6 @@ public class GuiBuilder {
      */
     public Gui build(long redrawIntervalInMilliseconds) {
         gui.setCurrentChannel(0);
-        gui.generateWindow();
         new Thread(new RedrawScheduler(gui, redrawIntervalInMilliseconds)).start();
         return gui;
     }
