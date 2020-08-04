@@ -66,8 +66,7 @@ public class Gui {
      */
     void addOutputChannel() {
         outputChannels.add(new OutputChannel());
-        if (currentChannel < 0) //if this is the first channel we are adding,
-            currentChannel = 0; //set the current channel - otherwise do not change the current channel when adding
+        currentChannel = outputChannels.size() - 1; //set the current channel to the one we just added.
     }
 
     /**
@@ -133,6 +132,7 @@ public class Gui {
     void redraw() {
         requireCanvas();
         requireWindow();
+        canvas.clear();
         getChannel().paint(canvas);
         outputWindow.refresh(canvas.getImage());
     }
@@ -211,16 +211,16 @@ public class Gui {
         requireCanvas();
         int x = region.ORIGIN.x;
         int y = region.ORIGIN.y;
-        int X = x + (region.HEIGHT_IN_UNITS * region.UNIT_HEIGHT);
-        int Y = y + (region.WIDTH_IN_UNITS * region.UNIT_WIDTH);
+        int X = x + (region.WIDTH_IN_UNITS * region.UNIT_WIDTH);
+        int Y = y + (region.HEIGHT_IN_UNITS * region.UNIT_HEIGHT);
         if (x < 0)
             throw new IllegalStateException("Invalid region origin - x(" + x + ") < 0.");
         if (y < 0)
             throw new IllegalStateException("Invalid region origin - y(" + y + ") < 0.");
-        if (X > canvas.HEIGHT)
-            throw new IllegalStateException("Invalid region size - X(" + X + ") > " + canvas.HEIGHT);
-        if (Y > canvas.WIDTH)
-            throw new IllegalStateException("Invalid region size - Y(" + Y + ") > " + canvas.WIDTH);
+        if (X > canvas.WIDTH)
+            throw new IllegalStateException("Invalid region size - X(" + X + ") > " + canvas.WIDTH);
+        if (Y > canvas.HEIGHT)
+            throw new IllegalStateException("Invalid region size - Y(" + Y + ") > " + canvas.HEIGHT);
     }
 
 }
