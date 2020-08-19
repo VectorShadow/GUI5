@@ -88,13 +88,6 @@ class Region {
     }
 
     /**
-     * Update the specified draw layer for this region.
-     */
-    void update(int layerIndex) {
-        LAYER_LIST.update(layerIndex);
-    }
-
-    /**
      * Convert an external index to an internal index(by subtracting the origin).
      * @param externalIndex a Point specifying the x,y coordinates of a pixel in the external coordinate system.
      * @return the internal index of the specified external index.

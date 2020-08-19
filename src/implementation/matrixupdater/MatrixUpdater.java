@@ -9,20 +9,15 @@ import images.ImageMatrix;
  * should know how to center itself and translate game objects to either image indices or tile graphics.
  */
 public abstract class MatrixUpdater {
-    protected int currentLayer = -1;
-    protected final ImageMatrix[] LAYERS;
+    protected ImageMatrix[] layers;
 
-    public MatrixUpdater(int layerCount) {
-        LAYERS = new ImageMatrix[layerCount];
+    public void setLayers(ImageMatrix[] imageMatrices) {
+        layers = imageMatrices;
     }
 
-    public ImageMatrix update(int imageHeight, int imageWidth, int matrixHeight, int matrixWidth, int layer) {
-        if (layer >= LAYERS.length)
-            throw new IllegalArgumentException("Tried to update unsupported layer " +
-                    layer + "; highest supported layer is " + (LAYERS.length - 1));
-        currentLayer = layer;
-        LAYERS[currentLayer] = new ImageMatrix(imageHeight, imageWidth, matrixHeight, matrixWidth);
-        return doUpdate();
+    public void update() {
+        for (int i = 0; i < layers.length; ++i)
+            layers[i] = doUpdate(i);
     }
-    protected abstract ImageMatrix doUpdate();
+    protected abstract ImageMatrix doUpdate(int currentLayer);
 }

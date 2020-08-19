@@ -34,6 +34,7 @@ class LayerList {
         imageMatrices = new ImageMatrix[layerCount];
         for (int i = 0; i < layerCount; ++i)
             imageMatrices[i] = new ImageMatrix(imageHeight, imageWidth, matrixHeight, matrixWidth);
+        MATRIX_UPDATER.setLayers(imageMatrices);
     }
 
     /**
@@ -50,17 +51,6 @@ class LayerList {
      * completely built, to avoid concurrency issues between this method and paint().
      */
     void update() {
-        int matrixCount = imageMatrices.length;
-        ImageMatrix[] updatedMatrices = new ImageMatrix[matrixCount];
-        for (int i = 0; i < matrixCount; ++i)
-            updatedMatrices[i] = MATRIX_UPDATER.update(IMAGE_HEIGHT, IMAGE_WIDTH, MATRIX_HEIGHT, MATRIX_WIDTH, i);
-        imageMatrices = updatedMatrices;
-    }
-
-    /**
-     * Use the MatrixUpdater to update the information in only the specified draw layer.
-     */
-    void update(int i) {
-        imageMatrices[i] = MATRIX_UPDATER.update(IMAGE_HEIGHT, IMAGE_WIDTH, MATRIX_HEIGHT, MATRIX_WIDTH, i);
+        MATRIX_UPDATER.update();
     }
 }

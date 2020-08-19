@@ -176,14 +176,6 @@ public class Gui {
         getChannel(channelIndex).update(regionIndex);
     }
 
-    /**
-     * Update the layer specified by the layerIndex, within the region corresponding to the specified regionIndex,
-     * within the OutputChannel corresponding to the specified channelIndex.
-     */
-    public void update(int channelIndex, int regionIndex, int layerIndex) {
-        getChannel(channelIndex).update(regionIndex, layerIndex);
-    }
-
     private OutputChannel getChannel() {
         return getChannel(currentChannel);
     }

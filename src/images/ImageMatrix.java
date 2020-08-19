@@ -27,8 +27,8 @@ public class ImageMatrix {
         renderer = new Renderer(imageHeight, imageWidth);
     }
 
-    public Color getBackgroundColorAt(int x, int y) {
-        return matrix[y][x].getBackgroundColor();
+    public Color getBackgroundColorAt(int row, int column) {
+        return matrix[row][column].getBackgroundColor();
     }
 
     public int getImageHeight() {
@@ -64,5 +64,17 @@ public class ImageMatrix {
 
     public void set(int row, int column, ImageSource imageSource) {
         matrix[row][column] = imageSource;
+    }
+
+    /**
+     * Create an empty matrix with the same size parameters as the source.
+     */
+    public static ImageMatrix emptyCopy(ImageMatrix imageMatrix) {
+        return new ImageMatrix(
+                imageMatrix.imageHeight,
+                imageMatrix.imageWidth,
+                imageMatrix.matrixHeight,
+                imageMatrix.matrixWidth
+        );
     }
 }

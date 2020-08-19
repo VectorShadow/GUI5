@@ -8,13 +8,10 @@ import implementation.matrixupdater.MatrixUpdater;
 import java.awt.*;
 
 public class TestMatrixUpdater extends MatrixUpdater {
-    public TestMatrixUpdater() {
-        super(2);
-    }
 
     @Override
-    protected ImageMatrix doUpdate() {
-        ImageMatrix imageMatrix = LAYERS[currentLayer];
+    protected ImageMatrix doUpdate(int currentLayer) {
+        ImageMatrix imageMatrix = ImageMatrix.emptyCopy(layers[currentLayer]);
         switch (currentLayer) {
             case 0:
                 break;

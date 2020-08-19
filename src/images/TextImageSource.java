@@ -26,6 +26,13 @@ public class TextImageSource extends ImageSource {
     }
 
     /**
+     * Copy an existing text image source with new colors.
+     */
+    public TextImageSource(Color bg, Color fg, TextImageSource sourceImage) {
+        this(bg, fg, sourceImage.symbol);
+    }
+
+    /**
      * Use the provided renderer to set colors and symbol and derive an image from it.
      */
     public BufferedImage renderImage(Renderer renderer, int height, int width) {
