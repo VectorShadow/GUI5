@@ -3,13 +3,14 @@ package images;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
  * Specifies the parameters required to draw an image.
  */
-public abstract class ImageSource {
+public abstract class ImageSource implements Serializable {
 
 
     public static String imageDirectoryPath = "./gfx";
