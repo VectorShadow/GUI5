@@ -29,6 +29,10 @@ import java.awt.event.WindowListener;
  *  As above, and additionally specify the default background color of the image. This defaults to Black, and can be
  *  used by PaintInstructions to selectively override specific pixels as desired.
  *
+ * setTitle(title):
+ * [OPTIONAL]
+ * Set a title for the window.
+ *
  * addOutputChannel():
  * [REQUIRED(>0)]
  * Add a new OutputChannel to the Gui. OutputChannel indices correspond to the order in which they are added, beginning
@@ -102,6 +106,14 @@ public class GuiBuilder {
     public GuiBuilder setSizeAndColor(int height, int width, int rgbValue) {
         gui.generateCanvas(height, width, rgbValue);
         gui.generateWindow();
+        return this;
+    }
+
+    /**
+     * Set the title for the window.
+     */
+    public GuiBuilder setTitle(String title) {
+        gui.setTitle(title);
         return this;
     }
 

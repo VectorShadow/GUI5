@@ -3,6 +3,7 @@ package main;
 import main.swing.G5MouseListener;
 import main.swing.OutputWindow;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -39,9 +40,9 @@ public class Gui {
 
     private boolean fullScreenMode = false;
 
-    private OutputWindow outputWindow = null;
-
     private ArrayList<OutputChannel> outputChannels = new ArrayList<>();
+
+    private OutputWindow outputWindow = null;
 
     Gui() {}
 
@@ -107,6 +108,11 @@ public class Gui {
     void addWindowListener(WindowListener windowListener) {
         requireWindow();
         outputWindow.addWindowListener(windowListener);
+    }
+
+    void setTitle(String title) {
+        requireWindow();
+        outputWindow.setFrameTitle(title);
     }
 
     /**

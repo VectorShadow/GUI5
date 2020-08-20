@@ -2,11 +2,17 @@ package images;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Specifies the parameters required to draw an image.
  */
 public abstract class ImageSource {
+
+
+    public static String imageDirectoryPath = "./gfx";
 
     /**
      * This method generates a BufferedImage based on the information contained within this image source.
@@ -21,4 +27,15 @@ public abstract class ImageSource {
      * @return the background color of this image source.
      */
     public abstract Color getBackgroundColor();
+
+    public static void setImageDirectoryPath(String directoryPathName) {
+        imageDirectoryPath = directoryPathName;
+        if (!Files.exists(Paths.get(imageDirectoryPath))){
+            try {
+                Files.createDirectory(Paths.get(imageDirectoryPath));
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Unable to create directory matching " + directoryPathName);
+            }
+        }
+    }
 }

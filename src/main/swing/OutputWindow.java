@@ -1,5 +1,6 @@
 package main.swing;
 
+import images.ImageSource;
 import main.Gui;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class OutputWindow extends JFrame {
 
 
     //todo - methods for setting all static fields:
-    private static String iconImagePath = "";
+    private static String iconImagePath = ImageSource.imageDirectoryPath + "/icon.png";
     private static String frameTitle = "";
 
     private static KeyListener keyListener = null;
@@ -57,8 +58,7 @@ public class OutputWindow extends JFrame {
         } else {
             setExtendedState(Frame.NORMAL);
             setLocation(centeredOrigin());
-            if (!iconImagePath.equals(""))
-                setIconImage(new ImageIcon(iconImagePath).getImage());
+            setIconImage(new ImageIcon(iconImagePath).getImage());
             setTitle(frameTitle);
         }
     }
@@ -92,6 +92,10 @@ public class OutputWindow extends JFrame {
     public void refresh(BufferedImage bufferedImage) {
         outputPanel.setImage(bufferedImage);
         outputPanel.repaint();
+    }
+
+    public void setFrameTitle(String title) {
+        frameTitle = title;
     }
 
     private Point centeredOrigin() {

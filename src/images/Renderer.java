@@ -17,9 +17,7 @@ import java.util.HashMap;
  */
 public class Renderer extends JLabel {
 
-    private static BufferedImage SOURCE_IMAGE = null;
-
-    private static String imageDirectoryPath = "./gfx";
+    private BufferedImage SOURCE_IMAGE = null;
 
     Renderer(int imageHeight, int imageWidth) {
         setSize(new Dimension(imageWidth, imageHeight));
@@ -38,17 +36,6 @@ public class Renderer extends JLabel {
 
     //todo - this needs work, but the idea is to establish a convention and easily load conventionally named files
     private String getImageFilePath() {
-        return imageDirectoryPath + "/" + getWidth() + "x" + getHeight() + ".png";
-    }
-
-    public static void setImageDirectoryPath(String directoryPathName) {
-        imageDirectoryPath = directoryPathName;
-        if (!Files.exists(Paths.get(imageDirectoryPath))){
-            try {
-                Files.createDirectory(Paths.get(imageDirectoryPath));
-            } catch (IOException e) {
-                throw new IllegalArgumentException("Unable to create directory matching " + directoryPathName);
-            }
-        }
+        return ImageSource.imageDirectoryPath + "/" + getWidth() + "x" + getHeight() + ".png";
     }
 }
