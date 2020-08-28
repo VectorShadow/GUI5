@@ -25,7 +25,7 @@ public class TrueImageSource extends ImageSource {
 
     @Override
     public Color getBackgroundColor() {
-        throw new UnsupportedOperationException("TrueImageSources must be rendered to populate background color.");
+        throw new UnsupportedOperationException("Non-recolored TrueImageSources must be rendered to populate background color.");
     }
 
 }
