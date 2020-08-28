@@ -10,38 +10,47 @@ public class RecoloredTrueImageSource extends TrueImageSource {
     public static final int SOURCE_SECONDARY_COLOR = new Color(0, 255, 0).getRGB();
     public static final int SOURCE_TERTIARY_COLOR = new Color(0, 0, 255).getRGB();
 
-    private final int RECOLOR_TRANSPARENCY;
-    private final int RECOLOR_PRIMARY;
-    private final int RECOLOR_SECONDARY;
-    private final int RECOLOR_TERTIARY;
+    private final Integer RECOLOR_TRANSPARENCY;
+    private final Integer RECOLOR_PRIMARY;
+    private final Integer RECOLOR_SECONDARY;
+    private final Integer RECOLOR_TERTIARY;
 
     public RecoloredTrueImageSource(int column, int row, Color... recoloration) {
         super(column, row);
-        RECOLOR_TRANSPARENCY = recoloration.length > 0 ? recoloration[0].getRGB() : 0;
-        RECOLOR_PRIMARY = recoloration.length > 1 ? recoloration[1].getRGB() : 0;
-        RECOLOR_SECONDARY = recoloration.length > 2 ? recoloration[2].getRGB() : 0;
-        RECOLOR_TERTIARY = recoloration.length > 3 ? recoloration[3].getRGB() : 0;
+        RECOLOR_TRANSPARENCY = recoloration.length > 0 ? recoloration[0].getRGB() : null;
+        RECOLOR_PRIMARY = recoloration.length > 1 ? recoloration[1].getRGB() : null;
+        RECOLOR_SECONDARY = recoloration.length > 2 ? recoloration[2].getRGB() : null;
+        RECOLOR_TERTIARY = recoloration.length > 3 ? recoloration[3].getRGB() : null;
+    }
+
+    /**
+     * Apply a re-coloration to an existing TrueImageSource.
+     */
+    public RecoloredTrueImageSource(TrueImageSource original, Color... recoloration) {
+        this(original.sourceColumn, original.sourceRow, recoloration);
     }
 
     @Override
     public BufferedImage renderImage(Renderer renderer, int height, int width) {
         BufferedImage sourceSubImage = super.renderImage(renderer, height, width);
+        BufferedImage recoloredSubImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         int sourceRGB;
         for (int x = 0; x < width; ++x) {
             for (int y = 0; y < height; ++y) {
                 sourceRGB = sourceSubImage.getRGB(x, y);
-                if (RECOLOR_TRANSPARENCY < 0 && sourceRGB == SOURCE_TRANSPARENCY_COLOR)
-                    sourceSubImage.setRGB(x, y, RECOLOR_TRANSPARENCY);
-                else if (RECOLOR_PRIMARY < 0 && sourceRGB == SOURCE_PRIMARY_COLOR)
-                    sourceSubImage.setRGB(x, y, RECOLOR_PRIMARY);
-                else if (RECOLOR_SECONDARY < 0 && sourceRGB == SOURCE_SECONDARY_COLOR)
-                    sourceSubImage.setRGB(x, y, RECOLOR_SECONDARY);
-                else if (RECOLOR_TERTIARY < 0 && sourceRGB == SOURCE_TERTIARY_COLOR)
-                    sourceSubImage.setRGB(x, y, RECOLOR_TERTIARY);
-                //else no re-coloration is required for this pixel
+                if (RECOLOR_TRANSPARENCY != null && sourceRGB == SOURCE_TRANSPARENCY_COLOR)
+                    recoloredSubImage.setRGB(x, y, RECOLOR_TRANSPARENCY);
+                else if (RECOLOR_PRIMARY != null && sourceRGB == SOURCE_PRIMARY_COLOR)
+                    recoloredSubImage.setRGB(x, y, RECOLOR_PRIMARY);
+                else if (RECOLOR_SECONDARY != null && sourceRGB == SOURCE_SECONDARY_COLOR)
+                    recoloredSubImage.setRGB(x, y, RECOLOR_SECONDARY);
+                else if (RECOLOR_TERTIARY != null && sourceRGB == SOURCE_TERTIARY_COLOR)
+                    recoloredSubImage.setRGB(x, y, RECOLOR_TERTIARY);
+                else
+                    recoloredSubImage.setRGB(x, y, sourceRGB);
             }
         }
-        return sourceSubImage;
+        return recoloredSubImage;
     }
 
     @Override

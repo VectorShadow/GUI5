@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
  * Define an imageSource based on coordinates in an external image file.
  */
 public class TrueImageSource extends ImageSource {
-    private final int sourceColumn;
-    private final int sourceRow;
+    protected final int sourceColumn;
+    protected final int sourceRow;
 
     public TrueImageSource(int column, int row) {
         sourceColumn = column;
@@ -18,9 +18,7 @@ public class TrueImageSource extends ImageSource {
     @Override
     public BufferedImage renderImage(Renderer renderer, int height, int width) {
         BufferedImage sourceImage = renderer.getSourceImage();
-        BufferedImage sourceSubImage = sourceImage.getSubimage(sourceColumn * width,sourceRow * height, width, height);
-        //todo - apply image recoloring if desired
-        return sourceSubImage;
+        return sourceImage.getSubimage(sourceColumn * width,sourceRow * height, width, height);
     }
 
     @Override
